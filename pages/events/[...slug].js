@@ -55,7 +55,7 @@ export default function FilteredEventsPage() {
   return (
     <>
       <ResultsTitle date={date} />
-      <EventList items={filtereEvents} />
+      <EventList items={filteredEvents} />
     </>
   );
 }
