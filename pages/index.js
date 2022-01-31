@@ -14,5 +14,8 @@ export async function getStaticProps() {
     props: {
       events: featuredEvents,
     },
+    // we don't need to every request re-rendering our page(thats why i don't use getServerSideProps),
+    //so we can set up revalidate, 1800 - 30 minutes. Every 30 minutes it will re-render on the backend
+    revalidate: 1800,
   };
 }
