@@ -5,7 +5,6 @@ import AddressIcon from "./../icons/address-icon";
 import ArrowRightIcon from "./../icons/arrow-right-icon";
 
 export default function EventItem(props) {
-  console.log(props, "props");
   const { title, image, date, location, id } = props;
   const readableDate = new Date(date).toLocaleDateString("en-US", {
     day: "numeric",
