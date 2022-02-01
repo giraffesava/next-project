@@ -6,19 +6,20 @@ import Button from "../../components/ui/button";
 import ErrorAlert from "../../components/ui/error-alert";
 import useSWR from "swr";
 import { useEffect, useState } from "react";
+import Head from "next/head";
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
 export default function FilteredEventsPage(props) {
   const [loadedEvents, setLoadedEvents] = useState();
-  console.log(loadedEvents);
+
   const router = useRouter();
   const filterData = router.query.slug;
   const { data, error } = useSWR(
     "https://events-d98f7-default-rtdb.firebaseio.com/events.json",
     fetcher
   );
-  console.log(data);
+
   useEffect(() => {
     if (data) {
       const events = [];
@@ -33,13 +34,27 @@ export default function FilteredEventsPage(props) {
   }, [data]);
 
   if (!loadedEvents) {
-    return <p className="center">Loading...</p>;
-  } else {
+    return (
+      <>
+        <p className="center">Loading...</p>
+      </>
+    );
   }
+
   const filteredYear = filterData[0];
   const filteredMonth = filterData[1];
   const numYear = Number(filteredYear);
   const numMonth = Number(filteredMonth);
+
+  pageHeadData = (
+    <Head>
+      <title>Filtered Events</title>
+      <meta
+        name="description"
+        content={`All events for ${numMonth}/${numYear}`}
+      />
+    </Head>
+  );
 
   if (
     isNaN(numYear) ||
@@ -52,6 +67,7 @@ export default function FilteredEventsPage(props) {
   ) {
     return (
       <>
+        {pageHeadData}
         <ErrorAlert>Invalid filter. Please adjust your values!</ErrorAlert>
         <div className="center">
           <Button link="/events">Show All Events</Button>
@@ -71,6 +87,7 @@ export default function FilteredEventsPage(props) {
   if (!filteredEvents || filteredEvents.length === 0) {
     return (
       <>
+        {pageHeadData}
         <ErrorAlert>No events found for the chosen filter!</ErrorAlert>
         <div className="center">
           <Button link="/events">Show All Events</Button>
@@ -82,6 +99,14 @@ export default function FilteredEventsPage(props) {
   const date = new Date(numYear, numMonth - 1);
   return (
     <>
+      {pageHeadData}
+      <Head>
+        <title>Filtered Events</title>
+        <meta
+          name="description"
+          content={`All events for ${numMonth}/${numYear}`}
+        />
+      </Head>
       <ResultsTitle date={date} />
       <EventList items={filteredEvents} />
     </>
