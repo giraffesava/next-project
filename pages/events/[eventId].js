@@ -3,6 +3,7 @@ import EventSummary from "./../../components/event-detail/event-summary";
 import EventLogistics from "./../../components/event-detail/event-logistics";
 import EventContent from "./../../components/event-detail/event-content";
 import Head from "next/head";
+import Comments from "../../components/input/comments";
 
 export default function EventDetailPage({ selectedEvent }) {
   if (!selectedEvent) {
@@ -28,6 +29,7 @@ export default function EventDetailPage({ selectedEvent }) {
       <EventContent>
         <p>{selectedEvent.description}</p>
       </EventContent>
+      <Comments eventId={selectedEvent.id} />
     </>
   );
 }
